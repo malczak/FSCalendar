@@ -52,12 +52,21 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 
 @end
 
+
+@protocol FSCalendarHeaderDelegate <NSObject>
+
+
+
+@end
+
 @interface FSCalendar : UIView<UIAppearance>
 
 @property (weak,   nonatomic) IBOutlet    FSCalendarHeader     *header;
 @property (weak,   nonatomic) IBOutlet id<FSCalendarDelegate>   delegate;
 @property (weak,   nonatomic) IBOutlet id<FSCalendarDataSource> dataSource;
 
+@property (copy,   nonatomic) NSDate *minimumDate;
+@property (copy,   nonatomic) NSDate *maximumDate;
 @property (copy,   nonatomic) NSDate *currentDate;
 @property (copy,   nonatomic) NSDate *selectedDate;
 @property (copy,   nonatomic) NSDate *currentMonth;
@@ -93,6 +102,14 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 
 @property (strong, nonatomic) UIColor  *selectionColor           UI_APPEARANCE_SELECTOR;
 @property (strong, nonatomic) UIColor  *todayColor               UI_APPEARANCE_SELECTOR;
+
+- (void)scrollToDate:(NSDate *)date;
+
+- (void)scrollToDate:(NSDate *)date animate:(BOOL)animate;
+
+- (NSDate *)dateForIndexPath:(NSIndexPath *)indexPath;
+
+- (NSIndexPath *)indexPathForDate:(NSDate *)date;
 
 - (void)reloadData;
 

@@ -42,9 +42,6 @@
 @property (weak,   nonatomic) UICollectionView           *collectionView;
 @property (weak,   nonatomic) UICollectionViewFlowLayout *collectionViewFlowLayout;
 
-@property (copy,   nonatomic) NSDate                     *minimumDate;
-@property (copy,   nonatomic) NSDate                     *maximumDate;
-
 @property (assign, nonatomic) BOOL                       supressEvent;
 
 - (void)adjustTitleIfNecessary;
@@ -287,6 +284,24 @@
 
 #pragma mark - Setter & Getter
 
+- (void)setMinimumDate:(NSDate *)minimumDate
+{
+    _minimumDate = [minimumDate copy];
+    [self reloadData];
+}
+
+- (void)setMaximumDate:(NSDate *)maximumDate
+{
+    _maximumDate = [maximumDate copy];
+    [self reloadData];
+}
+
+- (void)setDataSource:(id<FSCalendarDataSource>)dataSource
+{
+    _dataSource = dataSource;
+    [self reloadData];
+}
+
 - (void)setFlow:(FSCalendarFlow)flow
 {
     if (self.flow != flow) {
@@ -392,6 +407,7 @@
 {
     if (_header != header) {
         _header = header;
+        _header.calendar = self;
         _topBorderLayer.hidden = header != nil;
     }
 }

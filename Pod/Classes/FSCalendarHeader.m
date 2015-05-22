@@ -21,9 +21,6 @@
 @property (weak, nonatomic) UICollectionView           *collectionView;
 @property (weak, nonatomic) UICollectionViewFlowLayout *collectionViewFlowLayout;
 
-@property (copy, nonatomic) NSDate                     *minimumDate;
-@property (copy, nonatomic) NSDate                     *maximumDate;
-
 - (void)updateAlphaForCell:(UICollectionViewCell *)cell;
 
 @end
@@ -55,8 +52,6 @@
     _dateFormatter.dateFormat = _dateFormat;
     _minDissolveAlpha         = 0.2;
     _scrollDirection          = UICollectionViewScrollDirectionHorizontal;
-    _minimumDate              = [NSDate fs_dateWithYear:1970 month:1 day:1];
-    _maximumDate              = [NSDate fs_dateWithYear:2099 month:12 day:31];
 
     UICollectionViewFlowLayout *collectionViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     collectionViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -95,7 +90,11 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [_maximumDate fs_monthsFrom:_minimumDate] + 1;
+    if(self.calendar)
+    {
+        return [self.calendar.maximumDate fs_monthsFrom:self.calendar.minimumDate] + 1;
+    }
+    return 0;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -110,7 +109,7 @@
     }
     titleLabel.font = self.titleFont;
     titleLabel.textColor = self.titleColor;
-    NSDate *date = [_minimumDate fs_dateByAddingMonths:indexPath.item];
+    NSDate *date = [self.calendar.minimumDate fs_dateByAddingMonths:indexPath.item];
     titleLabel.text = [_dateFormatter stringFromDate:date];
     
     [self updateAlphaForCell:cell];

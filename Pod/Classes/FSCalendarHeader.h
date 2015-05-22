@@ -19,6 +19,8 @@
 @property (weak    , nonatomic) UIColor     *titleColor;
 @property (weak    , nonatomic) UIFont      *titleFont;
 
+@property (weak    , nonatomic) FSCalendar  *calendar;
+
 @property (assign  , nonatomic) UICollectionViewScrollDirection scrollDirection;
 
 - (void)reloadData;

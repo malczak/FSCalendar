@@ -138,6 +138,16 @@
     return components.day;
 }
 
+- (NSDate*)fs_monthStartForDate
+{
+    NSCalendar *calendar = [NSCalendar fs_sharedCalendar];
+    NSDate *dayStart = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:self options:0];
+    NSDateComponents* components = [calendar components:NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond
+                                               fromDate:dayStart];
+    components.day = 1;
+    return [calendar dateFromComponents:components];
+}
+
 - (BOOL)fs_isEqualToDateForMonth:(NSDate *)date
 {
     return self.fs_year == date.fs_year && self.fs_month == date.fs_month;
