@@ -301,6 +301,24 @@
 
 #pragma mark - Setter & Getter
 
+- (void)setMinimumDate:(NSDate *)minimumDate
+{
+    _minimumDate = [minimumDate copy];
+    [self reloadData];
+}
+
+- (void)setMaximumDate:(NSDate *)maximumDate
+{
+    _maximumDate = [maximumDate copy];
+    [self reloadData];
+}
+
+- (void)setDataSource:(id<FSCalendarDataSource>)dataSource
+{
+    _dataSource = dataSource;
+    [self reloadData];
+}
+
 - (void)setFlow:(FSCalendarFlow)flow
 {
     if (self.flow != flow) {
@@ -406,6 +424,7 @@
 {
     if (_header != header) {
         _header = header;
+        _header.calendar = self;
         _topBorderLayer.hidden = header != nil;
     }
 }

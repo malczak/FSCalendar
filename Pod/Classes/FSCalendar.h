@@ -55,9 +55,7 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @end
 
 
-@protocol FSCalendarHeading <NSObject>
-
-
+@protocol FSCalendarHeaderDelegate <NSObject>
 
 @end
 
@@ -78,6 +76,8 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @property (weak,   nonatomic) IBOutlet id<FSCalendarDelegate>   delegate;
 @property (weak,   nonatomic) IBOutlet id<FSCalendarDataSource> dataSource;
 
+@property (copy,   nonatomic) NSDate *minimumDate;
+@property (copy,   nonatomic) NSDate *maximumDate;
 @property (copy,   nonatomic) NSDate *currentDate;
 @property (copy,   nonatomic) NSDate *selectedDate;
 @property (copy,   nonatomic) NSDate *currentMonth;
@@ -117,6 +117,13 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @property (copy, nonatomic) NSDate *minimumDate                  UI_APPEARANCE_SELECTOR;
 @property (copy, nonatomic) NSDate *maximumDate                  UI_APPEARANCE_SELECTOR;
 
+- (void)scrollToDate:(NSDate *)date;
+
+- (void)scrollToDate:(NSDate *)date animate:(BOOL)animate;
+
+- (NSDate *)dateForIndexPath:(NSIndexPath *)indexPath;
+
+- (NSIndexPath *)indexPathForDate:(NSDate *)date;
 
 - (void)reloadData;
 
