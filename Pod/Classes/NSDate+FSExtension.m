@@ -138,7 +138,7 @@
     return components.day;
 }
 
-- (NSDate*)fs_monthStartForDate
+- (NSDate*)fs_monthStartDate
 {
     NSCalendar *calendar = [NSCalendar fs_sharedCalendar];
     NSDate *dayStart = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:self options:0];

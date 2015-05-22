@@ -30,7 +30,7 @@
 - (NSInteger)fs_monthsFrom:(NSDate *)date;
 - (NSInteger)fs_daysFrom:(NSDate *)date;
 
-- (NSDate*)fs_monthStartForDate;
+- (NSDate*)fs_monthStartDate;
 
 - (BOOL)fs_isEqualToDateForMonth:(NSDate *)date;
 - (BOOL)fs_isEqualToDateForDay:(NSDate *)date;
