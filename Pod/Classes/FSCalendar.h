@@ -34,6 +34,7 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
     FSCalendarCellStateWeekend     = 1 << 4
 };
 
+
 @protocol FSCalendarDelegate <NSObject>
 
 @optional
@@ -43,12 +44,31 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 
 @end
 
+
 @protocol FSCalendarDataSource <NSObject>
 
 @optional
 
 - (NSString *)calendar:(FSCalendar *)calendar subtitleForDate:(NSDate *)date;
 - (BOOL)calendar:(FSCalendar *)calendar hasEventForDate:(NSDate *)date;
+
+@end
+
+
+@protocol FSCalendarHeading <NSObject>
+
+
+
+@end
+
+
+@interface FSDateRange : NSObject
+
+@property (nonatomic, readonly) NSDate *startDate;
+
+@property (nonatomic, readonly) NSDate *endDate;
+
+-(instancetype) initWithStartDate:(NSDate*) startDate endDate:(NSDate*) endDate;
 
 @end
 
@@ -93,6 +113,10 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 
 @property (strong, nonatomic) UIColor  *selectionColor           UI_APPEARANCE_SELECTOR;
 @property (strong, nonatomic) UIColor  *todayColor               UI_APPEARANCE_SELECTOR;
+
+@property (copy, nonatomic) NSDate *minimumDate                  UI_APPEARANCE_SELECTOR;
+@property (copy, nonatomic) NSDate *maximumDate                  UI_APPEARANCE_SELECTOR;
+
 
 - (void)reloadData;
 

@@ -50,7 +50,7 @@
 
 - (void)initialize
 {
-    _dateFormat               = @"MMMM yyyy";
+    _dateFormat               = @"LLLL yyyy";
     _dateFormatter            = [[NSDateFormatter alloc] init];
     _dateFormatter.dateFormat = _dateFormat;
     _minDissolveAlpha         = 0.2;
@@ -111,7 +111,7 @@
     titleLabel.font = self.titleFont;
     titleLabel.textColor = self.titleColor;
     NSDate *date = [_minimumDate fs_dateByAddingMonths:indexPath.item];
-    titleLabel.text = [_dateFormatter stringFromDate:date];
+    titleLabel.text = [[_dateFormatter stringFromDate:date] uppercaseString];
     
     [self updateAlphaForCell:cell];
     

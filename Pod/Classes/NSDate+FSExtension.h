@@ -32,6 +32,9 @@
 
 - (BOOL)fs_isEqualToDateForMonth:(NSDate *)date;
 - (BOOL)fs_isEqualToDateForDay:(NSDate *)date;
+- (BOOL)fs_isBetweenDate:(NSDate*) minimumDate andDate:(NSDate*) maximumDate;
+
+- (NSDate*) fs_monthStartDate;
 
 + (instancetype)fs_dateFromString:(NSString *)string format:(NSString *)format;
 + (instancetype)fs_dateWithYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day;

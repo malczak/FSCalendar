@@ -18,6 +18,23 @@
 #define kPink       [UIColor colorWithRed:198/255.0 green:51/255.0  blue:42/255.0     alpha:1.0]
 #define kBlue       [UIColor colorWithRed:31/255.0  green:119/255.0 blue:219/255.0    alpha:1.0]
 
+
+@implementation FSDateRange
+
+-(instancetype) initWithStartDate:(NSDate*) startDate endDate:(NSDate*) endDate
+{
+    self = [super init];
+    if(self)
+    {
+        _startDate = [startDate copy];
+        _endDate = [endDate copy];
+    }
+    return self;
+}
+
+@end
+
+
 @interface FSCalendar (DataSourceAndDelegate)
 
 - (BOOL)hasEventForDate:(NSDate *)date;
@@ -41,9 +58,6 @@
 @property (weak,   nonatomic) CALayer                    *bottomBorderLayer;
 @property (weak,   nonatomic) UICollectionView           *collectionView;
 @property (weak,   nonatomic) UICollectionViewFlowLayout *collectionViewFlowLayout;
-
-@property (copy,   nonatomic) NSDate                     *minimumDate;
-@property (copy,   nonatomic) NSDate                     *maximumDate;
 
 @property (assign, nonatomic) BOOL                       supressEvent;
 
@@ -166,8 +180,8 @@
     [self.layer addSublayer:bottomBorderLayer];
     self.bottomBorderLayer = bottomBorderLayer;
     
-    _minimumDate = [NSDate fs_dateWithYear:1970 month:1 day:1];
-    _maximumDate = [NSDate fs_dateWithYear:2099 month:12 day:31];
+    self.minimumDate = [NSDate fs_dateWithYear:1970 month:1 day:1];
+    self.maximumDate = [NSDate fs_dateWithYear:2099 month:12 day:31];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self scrollToDate:_currentMonth];
@@ -642,6 +656,16 @@
     }
 }
 
+- (void)setMinimumDate:(NSDate *)minimumDate
+{
+    _minimumDate = [minimumDate copy];
+}
+
+- (void)setMaximumDate:(NSDate *)maximumDate
+{
+    _maximumDate = [maximumDate copy];
+}
+
 #pragma mark - Public
 
 - (void)reloadData
@@ -651,6 +675,27 @@
 }
 
 #pragma mark - Private
+
+- (void) ensureDateInRange
+{
+    NSCalendar *calendar = [NSCalendar fs_sharedCalendar];
+    
+    if ( NSOrderedDescending == [calendar compareDate:self.minimumDate
+                                               toDate:_currentDate
+                                    toUnitGranularity:NSCalendarUnitDay])
+    {
+        _currentDate = [self.minimumDate copy];
+    }
+    
+    if ( NSOrderedAscending == [calendar compareDate:self.maximumDate
+                                              toDate:_currentDate
+                                   toUnitGranularity:NSCalendarUnitDay])
+    {
+        _currentDate = [self.maximumDate copy];
+    }
+    
+    [self reloadData];
+}
 
 - (void)scrollToDate:(NSDate *)date
 {

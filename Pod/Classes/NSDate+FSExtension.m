@@ -148,6 +148,35 @@
     return self.fs_year == date.fs_year && self.fs_month == date.fs_month && self.fs_day == date.fs_day;
 }
 
+- (BOOL)fs_isBetweenDate:(NSDate*) minimumDate andDate:(NSDate*) maximumDate
+{
+    NSCalendar *calendar = [NSCalendar fs_sharedCalendar];
+    
+    if ( NSOrderedDescending == [calendar compareDate:minimumDate
+                                               toDate:self
+                                    toUnitGranularity:NSCalendarUnitDay])
+    {
+        return NO;
+    }
+    
+    if ( NSOrderedAscending == [calendar compareDate:maximumDate
+                                              toDate:self
+                                   toUnitGranularity:NSCalendarUnitDay])
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (NSDate*) fs_monthStartDate
+{
+    NSCalendar *calendar = [NSCalendar fs_sharedCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond
+                                               fromDate:self];
+    components.day = 1;
+    return [calendar dateFromComponents:components];
+}
 
 + (instancetype)fs_dateFromString:(NSString *)string format:(NSString *)format
 {
