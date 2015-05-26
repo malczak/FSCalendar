@@ -114,9 +114,6 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @property (strong, nonatomic) UIColor  *selectionColor           UI_APPEARANCE_SELECTOR;
 @property (strong, nonatomic) UIColor  *todayColor               UI_APPEARANCE_SELECTOR;
 
-@property (copy, nonatomic) NSDate *minimumDate                  UI_APPEARANCE_SELECTOR;
-@property (copy, nonatomic) NSDate *maximumDate                  UI_APPEARANCE_SELECTOR;
-
 - (void)scrollToDate:(NSDate *)date;
 
 - (void)scrollToDate:(NSDate *)date animate:(BOOL)animate;

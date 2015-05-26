@@ -179,15 +179,6 @@
     return YES;
 }
 
-- (NSDate*) fs_monthStartDate
-{
-    NSCalendar *calendar = [NSCalendar fs_sharedCalendar];
-    NSDateComponents *components = [calendar components:NSCalendarUnitDay|NSCalendarUnitMonth|NSCalendarUnitYear|NSCalendarUnitHour|NSCalendarUnitMinute|NSCalendarUnitSecond
-                                               fromDate:self];
-    components.day = 1;
-    return [calendar dateFromComponents:components];
-}
-
 + (instancetype)fs_dateFromString:(NSString *)string format:(NSString *)format
 {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];

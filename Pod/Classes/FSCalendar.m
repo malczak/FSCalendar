@@ -675,16 +675,6 @@
     }
 }
 
-- (void)setMinimumDate:(NSDate *)minimumDate
-{
-    _minimumDate = [minimumDate copy];
-}
-
-- (void)setMaximumDate:(NSDate *)maximumDate
-{
-    _maximumDate = [maximumDate copy];
-}
-
 #pragma mark - Public
 
 - (void)reloadData
