@@ -7,14 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FSCalendarHeader.h"
 #import "FSCalendarStyle.h"
+#import "FSCalendarHeader.h"
 
 @class FSCalendar;
-
-#ifndef IBInspectable
-#define IBInspectable
-#endif
 
 typedef NS_ENUM(NSInteger, FSCalendarFlow) {
     FSCalendarFlowVertical ,
@@ -69,9 +65,9 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @property (copy,   nonatomic) NSDate *selectedDate;
 @property (copy,   nonatomic) NSDate *currentMonth;
 
-@property (assign, nonatomic) FSCalendarFlow       flow;
-@property (assign, nonatomic) IBInspectable NSUInteger           firstWeekday;
-@property (assign, nonatomic) IBInspectable BOOL                 autoAdjustTitleSize;
+@property (assign, nonatomic) FSCalendarFlow flow;
+@property (assign, nonatomic) NSUInteger firstWeekday;
+@property (assign, nonatomic) BOOL autoAdjustTitleSize;
 
 - (void)scrollToDate:(NSDate *)date;
 

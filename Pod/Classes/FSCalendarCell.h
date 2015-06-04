@@ -35,6 +35,4 @@
 - (void)hideAnimation;
 - (void)configureCell;
 
-- (void) configureCellAtIndexPath:(NSIndexPath*) indexPath calendar:(FSCalendar*) calendar;
-
 @end

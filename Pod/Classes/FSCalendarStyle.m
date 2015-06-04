@@ -7,6 +7,7 @@
 //
 
 #import "FSCalendarStyle.h"
+#import "FSCalendar.h"
 
 #define kBlueText   [UIColor colorWithRed:14/255.0  green:69/255.0  blue:221/255.0    alpha:1.0]
 #define kPink       [UIColor colorWithRed:198/255.0 green:51/255.0  blue:42/255.0     alpha:1.0]
@@ -57,39 +58,18 @@
 
 #pragma mark - Public methods
 
-- (void)setMinDissolvedAlpha:(CGFloat)minDissolvedAlpha
+- (void)setDefaultColor:(UIColor *)color
 {
-    if (_minDissolvedAlpha != minDissolvedAlpha) {
-        _minDissolvedAlpha = minDissolvedAlpha;
+    if (color) {
+        _backgroundColors[@(FSCalendarCellStateNormal)] = color;
+    } else {
+        [_backgroundColors removeObjectForKey:@(FSCalendarCellStateNormal)];
     }
 }
 
-- (void)setWeekdayFont:(UIFont *)weekdayFont
+- (UIColor *)defaultColor
 {
-    if (![_weekdayFont isEqual:weekdayFont]) {
-        _weekdayFont = weekdayFont;
-    }
-}
-
-- (void)setWeekdayTextColor:(UIColor *)weekdayTextColor
-{
-    if (![_weekdayTextColor isEqual:weekdayTextColor]) {
-        _weekdayTextColor = weekdayTextColor;
-    }
-}
-
-- (void)setHeaderTitleFont:(UIFont *)font
-{
-    if (![_headerTitleFont isEqual:font]) {
-        _headerTitleFont = font;
-    }
-}
-
-- (void)setHeaderTitleColor:(UIColor *)color
-{
-    if (![_headerTitleColor isEqual:color]) {
-        _headerTitleColor = color;
-    }
+    return _backgroundColors[@(FSCalendarCellStateNormal)];
 }
 
 - (void)setTitleDefaultColor:(UIColor *)color
@@ -258,39 +238,6 @@
 - (UIColor *)todayColor
 {
     return _backgroundColors[@(FSCalendarCellStateToday)];
-}
-
-- (void)setEventColor:(UIColor *)eventColor
-{
-    if (![_eventColor isEqual:eventColor]) {
-        _eventColor = eventColor;
-    }
-}
-
-- (void)setTitleFont:(UIFont *)font
-{
-    if (_titleFont != font) {
-        _titleFont = font;
-/*
-        if (_autoAdjustTitleSize) {
-            return;
-        }
-        [self reloadData];
-*/
-    }
-}
-
-- (void)setSubtitleFont:(UIFont *)font
-{
-    if (_subtitleFont != font) {
-        _subtitleFont = font;
-/*
-        if (_autoAdjustTitleSize) {
-            return;
-        }
-        [self reloadData];
-*/
-    }
 }
 
 @end

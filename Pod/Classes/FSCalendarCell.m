@@ -34,6 +34,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.cellStyle = FSCalendarCellStyleCircle;
+        
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -116,25 +118,10 @@
 
 #pragma mark - Private
 
--(void)setStyle:(FSCalendarStyle *)style
-{
-    if(![_style isEqual:style])
-    {
-        _style = style;
-        
-        self.eventColor = style.eventColor;
-        self.cellStyle = FSCalendarCellStyleCircle;
-        self.titleLabel.font = style.titleFont;
-        self.subtitleLabel.font = style.subtitleFont;
-        
-        self.titleLabel.textColor = [self colorForCurrentStateInDictionary:self.style.titleColors];
-        self.subtitleLabel.textColor = [self colorForCurrentStateInDictionary:self.style.subtitleColors];
-        self.backgroundLayer.fillColor = [self colorForCurrentStateInDictionary:self.style.backgroundColors].CGColor;
-    }
-}
-
 - (void)configureCell
 {
+    [self configureStyles];
+    
     _titleLabel.text = _title;
     _subtitleLabel.text = _subtitle;
     
@@ -158,7 +145,7 @@
         _subtitleLabel.hidden = YES;
     }
     
-    _backgroundLayer.hidden = !self.selected && !self.isToday;
+    _backgroundLayer.hidden = NO;//!self.selected && !self.isToday;
     _backgroundLayer.path = _cellStyle == FSCalendarCellStyleCircle ?
     
     [UIBezierPath bezierPathWithOvalInRect:_backgroundLayer.bounds].CGPath :
@@ -166,6 +153,17 @@
     
     _eventLayer.fillColor = _eventColor.CGColor;
     _eventLayer.hidden = !_hasEvent;
+}
+
+- (void)configureStyles
+{
+    self.eventColor = self.style.eventColor;
+    self.titleLabel.font = self.style.titleFont;
+    self.subtitleLabel.font = self.style.subtitleFont;
+    
+    self.titleLabel.textColor = [self colorForCurrentStateInDictionary:self.style.titleColors];
+    self.subtitleLabel.textColor = [self colorForCurrentStateInDictionary:self.style.subtitleColors];
+    self.backgroundLayer.fillColor = [self colorForCurrentStateInDictionary:self.style.backgroundColors].CGColor;
 }
 
 - (BOOL)isPlaceholder

@@ -51,7 +51,7 @@
 
 @implementation FSCalendar
 
-@synthesize flow = _flow, firstWeekday = _firstWeekday;
+@synthesize flow = _flow, firstWeekday = _firstWeekday, style = _style;
 
 #pragma mark - Life Cycle && Initialize
 
@@ -81,8 +81,6 @@
         UILabel *weekdayLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         weekdayLabel.text = weekSymbols[i];
         weekdayLabel.textAlignment = NSTextAlignmentCenter;
-//        weekdayLabel.font = _weekdayFont;
-//        weekdayLabel.textColor = kBlueText;
         [_weekdays addObject:weekdayLabel];
         [self addSubview:weekdayLabel];
     }
@@ -375,7 +373,27 @@
     return _style;
 }
 
+-(void)setStyle:(FSCalendarStyle *)style
+{
+    if(_style != style)
+    {
+        _style = style;
+        [self updateStyles];
+    }
+}
+
 #pragma mark - Public
+
+- (void) updateStyles
+{
+    for (UILabel *weekdayLabel in _weekdays)
+    {
+        weekdayLabel.font = self.style.weekdayFont;
+        weekdayLabel.textColor = self.style.weekdayTextColor;
+    }
+
+    [self reloadData];
+}
 
 - (void)reloadData
 {
