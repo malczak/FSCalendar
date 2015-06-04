@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FSCalendarHeader.h"
+#import "FSCalendarStyle.h"
 
 @class FSCalendar;
 
@@ -34,7 +35,6 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
     FSCalendarCellStateWeekend     = 1 << 4
 };
 
-
 @protocol FSCalendarDelegate <NSObject>
 
 @optional
@@ -55,26 +55,13 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @end
 
 
-@protocol FSCalendarHeaderDelegate <NSObject>
-
-@end
-
-
-@interface FSDateRange : NSObject
-
-@property (nonatomic, readonly) NSDate *startDate;
-
-@property (nonatomic, readonly) NSDate *endDate;
-
--(instancetype) initWithStartDate:(NSDate*) startDate endDate:(NSDate*) endDate;
-
-@end
-
-@interface FSCalendar : UIView<UIAppearance>
+@interface FSCalendar : UIView
 
 @property (weak,   nonatomic) IBOutlet    FSCalendarHeader     *header;
 @property (weak,   nonatomic) IBOutlet id<FSCalendarDelegate>   delegate;
 @property (weak,   nonatomic) IBOutlet id<FSCalendarDataSource> dataSource;
+
+@property (strong, nonatomic) FSCalendarStyle *style;
 
 @property (copy,   nonatomic) NSDate *minimumDate;
 @property (copy,   nonatomic) NSDate *maximumDate;
@@ -85,34 +72,6 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 @property (assign, nonatomic) FSCalendarFlow       flow;
 @property (assign, nonatomic) IBInspectable NSUInteger           firstWeekday;
 @property (assign, nonatomic) IBInspectable BOOL                 autoAdjustTitleSize;
-
-@property (assign, nonatomic) IBInspectable CGFloat              minDissolvedAlpha UI_APPEARANCE_SELECTOR;
-@property (assign, nonatomic) FSCalendarCellStyle cellStyle         UI_APPEARANCE_SELECTOR;
-
-@property (strong, nonatomic) UIFont   *titleFont                UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIFont   *subtitleFont             UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIFont   *weekdayFont              UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *eventColor               UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *weekdayTextColor         UI_APPEARANCE_SELECTOR;
-
-@property (strong, nonatomic) UIColor  *headerTitleColor         UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) NSString *headerDateFormat         UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIFont   *headerTitleFont          UI_APPEARANCE_SELECTOR;
-
-@property (strong, nonatomic) UIColor  *titleDefaultColor        UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *titleSelectionColor      UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *titleTodayColor          UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *titlePlaceholderColor    UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *titleWeekendColor        UI_APPEARANCE_SELECTOR;
-
-@property (strong, nonatomic) UIColor  *subtitleDefaultColor     UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *subtitleSelectionColor   UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *subtitleTodayColor       UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *subtitlePlaceholderColor UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *subtitleWeekendColor     UI_APPEARANCE_SELECTOR;
-
-@property (strong, nonatomic) UIColor  *selectionColor           UI_APPEARANCE_SELECTOR;
-@property (strong, nonatomic) UIColor  *todayColor               UI_APPEARANCE_SELECTOR;
 
 - (void)scrollToDate:(NSDate *)date;
 

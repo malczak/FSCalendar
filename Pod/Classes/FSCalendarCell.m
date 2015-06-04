@@ -8,6 +8,7 @@
 
 #import "FSCalendarCell.h"
 #import "FSCalendar.h"
+#import "FSCalendarStyle.h"
 #import "UIView+FSExtension.h"
 #import "NSDate+FSExtension.h"
 
@@ -90,7 +91,7 @@
 {
     _backgroundLayer.hidden = NO;
     _backgroundLayer.path = [UIBezierPath bezierPathWithOvalInRect:_backgroundLayer.bounds].CGPath;
-    _backgroundLayer.fillColor = [self colorForCurrentStateInDictionary:_backgroundColors].CGColor;
+    _backgroundLayer.fillColor = [self colorForCurrentStateInDictionary:self.style.backgroundColors].CGColor;
     CAAnimationGroup *group = [CAAnimationGroup animation];
     CABasicAnimation *zoomOut = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
     zoomOut.fromValue = @0.3;
@@ -115,16 +116,31 @@
 
 #pragma mark - Private
 
+-(void)setStyle:(FSCalendarStyle *)style
+{
+    if(![_style isEqual:style])
+    {
+        _style = style;
+        
+        self.eventColor = style.eventColor;
+        self.cellStyle = FSCalendarCellStyleCircle;
+        self.titleLabel.font = style.titleFont;
+        self.subtitleLabel.font = style.subtitleFont;
+        
+        self.titleLabel.textColor = [self colorForCurrentStateInDictionary:self.style.titleColors];
+        self.subtitleLabel.textColor = [self colorForCurrentStateInDictionary:self.style.subtitleColors];
+        self.backgroundLayer.fillColor = [self colorForCurrentStateInDictionary:self.style.backgroundColors].CGColor;
+    }
+}
+
 - (void)configureCell
 {
-    _titleLabel.text = [NSString stringWithFormat:@"%@",@(_date.fs_day)];
+    _titleLabel.text = _title;
     _subtitleLabel.text = _subtitle;
-    _titleLabel.textColor = [self colorForCurrentStateInDictionary:_titleColors];
-    _subtitleLabel.textColor = [self colorForCurrentStateInDictionary:_subtitleColors];
-    _backgroundLayer.fillColor = [self colorForCurrentStateInDictionary:_backgroundColors].CGColor;
     
     CGFloat titleHeight = [_titleLabel.text sizeWithAttributes:@{NSFontAttributeName:self.titleLabel.font}].height;
-    if (_subtitleLabel.text) {
+    if (_subtitleLabel.text)
+    {
         _subtitleLabel.hidden = NO;
         CGFloat subtitleHeight = [_subtitleLabel.text sizeWithAttributes:@{NSFontAttributeName:self.subtitleLabel.font}].height;
         CGFloat height = titleHeight + subtitleHeight;
@@ -141,10 +157,13 @@
         _titleLabel.frame = CGRectMake(0, 0, self.fs_width, floor(self.contentView.fs_height*5.0/6.0));
         _subtitleLabel.hidden = YES;
     }
+    
     _backgroundLayer.hidden = !self.selected && !self.isToday;
     _backgroundLayer.path = _cellStyle == FSCalendarCellStyleCircle ?
+    
     [UIBezierPath bezierPathWithOvalInRect:_backgroundLayer.bounds].CGPath :
     [UIBezierPath bezierPathWithRect:_backgroundLayer.bounds].CGPath;
+    
     _eventLayer.fillColor = _eventColor.CGColor;
     _eventLayer.hidden = !_hasEvent;
 }

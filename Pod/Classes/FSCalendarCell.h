@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "FSCalendar.h"
+#import "FSCalendarStyle.h"
 
 @interface FSCalendarCell : UICollectionViewCell
 
-@property (weak,   nonatomic) NSDictionary        *titleColors;
-@property (weak,   nonatomic) NSDictionary        *subtitleColors;
-@property (weak,   nonatomic) NSDictionary        *backgroundColors;
+@property (nonatomic, weak) FSCalendarStyle *style;
 
 @property (weak,   nonatomic) UIColor             *eventColor;
 
@@ -21,6 +20,7 @@
 @property (copy,   nonatomic) NSDate              *month;
 @property (weak,   nonatomic) NSDate              *currentDate;
 
+@property (copy,   nonatomic) NSString            *title;
 @property (copy,   nonatomic) NSString            *subtitle;
 
 @property (weak,   nonatomic) UILabel             *titleLabel;
@@ -34,5 +34,7 @@
 - (void)showAnimation;
 - (void)hideAnimation;
 - (void)configureCell;
+
+- (void) configureCellAtIndexPath:(NSIndexPath*) indexPath calendar:(FSCalendar*) calendar;
 
 @end
