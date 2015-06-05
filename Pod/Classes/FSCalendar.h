@@ -79,6 +79,8 @@ typedef NS_OPTIONS(NSInteger, FSCalendarCellState) {
 
 - (void)reloadData;
 
+- (void)registerCell:(Class) cellClass;
+
 @end
 
 

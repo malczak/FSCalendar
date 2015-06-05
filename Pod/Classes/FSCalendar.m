@@ -106,9 +106,10 @@
     collectionView.showsVerticalScrollIndicator = NO;
     collectionView.delaysContentTouches = NO;
     collectionView.canCancelContentTouches = YES;
-    [collectionView registerClass:[FSCalendarCell class] forCellWithReuseIdentifier:@"cell"];
     [self addSubview:collectionView];
     self.collectionView = collectionView;
+    
+    [self registerCell:[FSCalendarCell class]];
     
     _currentDate = [NSDate date];
     _currentMonth = [_currentDate copy];
@@ -183,7 +184,7 @@
 {
     NSDate *date = [self dateForIndexPath:indexPath];
 
-    FSCalendarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    FSCalendarCellBase *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     cell.style = self.style;
     cell.month = [self.minimumDate fs_dateByAddingMonths:indexPath.section];
     cell.currentDate = self.currentDate;
@@ -197,7 +198,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FSCalendarCell *cell = (FSCalendarCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    FSCalendarCellBase *cell = (FSCalendarCellBase *)[collectionView cellForItemAtIndexPath:indexPath];
     if (cell.isPlaceholder) {
         [self setSelectedDate:cell.date animate:YES];
     } else {
@@ -209,13 +210,13 @@
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FSCalendarCell *cell = (FSCalendarCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    FSCalendarCellBase *cell = (FSCalendarCellBase *)[collectionView cellForItemAtIndexPath:indexPath];
     return [self shouldSelectDate:cell.date] && ![[collectionView indexPathsForSelectedItems] containsObject:indexPath];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    FSCalendarCell *cell = (FSCalendarCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    FSCalendarCellBase *cell = (FSCalendarCellBase *)[collectionView cellForItemAtIndexPath:indexPath];
     [cell hideAnimation];
 }
 
@@ -556,6 +557,12 @@
                                         width,
                                         height);
     }];
+}
+
+- (void)registerCell:(Class) cellClass
+{
+    [self.collectionView registerClass:cellClass
+            forCellWithReuseIdentifier:@"cell"];
 }
 
 @end
